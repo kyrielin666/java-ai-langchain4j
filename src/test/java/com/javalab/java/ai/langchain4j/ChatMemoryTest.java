@@ -2,6 +2,7 @@ package com.javalab.java.ai.langchain4j;
 
 import com.javalab.java.ai.langchain4j.assistant.Assistant;
 import com.javalab.java.ai.langchain4j.assistant.MemoryChatAssistant;
+import com.javalab.java.ai.langchain4j.assistant.SeparateChatAssistant;
 import dev.langchain4j.community.model.dashscope.QwenChatModel;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.UserMessage;
@@ -25,6 +26,8 @@ public class ChatMemoryTest {
     private QwenChatModel qwenChatModel;
     @Autowired
     private MemoryChatAssistant memoryChatAssistant;
+    @Autowired
+    private SeparateChatAssistant separateChatAssistant;
 
     @Test
     public void testChatMemory() {
@@ -69,5 +72,16 @@ public class ChatMemoryTest {
         System.out.println(chat);
         String chat2 = memoryChatAssistant.chat("你知道我是谁吗？");
         System.out.println(chat2);
+    }
+
+    @Test
+    public void testChatMemory5() {
+        String chat = separateChatAssistant.chat(1,"我是环环");
+        System.out.println(chat);
+        String chat2 = separateChatAssistant.chat(1,"你知道我是谁吗？");
+        System.out.println(chat2);
+
+        String chat1 = separateChatAssistant.chat(2, "我是谁");
+        System.out.println(chat1);
     }
 }
