@@ -16,5 +16,8 @@ public class ChatMessages {
     @Id
     private ObjectId messageId;
 
+    private String memoryId;
+
     private String content;
+
 }
