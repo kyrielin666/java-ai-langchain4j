@@ -13,7 +13,7 @@ public class ToolsTest {
 
     @Test
     public void testCalculatorTools(){
-        String chat = separateChatAssistant.chat(98, "1+9等于几吗？56756756的平方根是多少？" );
+        String chat = separateChatAssistant.chat(98 , "1+9等于几吗？56756756的平方根是多少？" );
         System.out.println(chat);
     }
 }
