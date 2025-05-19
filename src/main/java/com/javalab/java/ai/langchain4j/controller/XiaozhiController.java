@@ -17,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @Tag(name = "硅谷小智")
 @RestController
@@ -42,17 +44,18 @@ public class XiaozhiController {
         return xiaozhiAgent.chat(chatForm.getMemoryId(),chatForm .getMessage());
     }
 
-    @Operation(summary = "获取图片中的网站和上证指数")
-    @GetMapping(value = "/image/call")
-    public String readImage() throws IOException {
-        byte[] byteArray = resource.getContentAsByteArray();
-        String base64Data = java.util.Base64.getEncoder().encodeToString(byteArray);
-
-        System.out.println("*********base64Data:"+base64Data);
+    @Operation(summary = "获取图片")
+    @PostMapping(value = "/image/call")
+    public String readImage(@RequestParam("file")MultipartFile file) throws IOException {
+        if (file.isEmpty()){
+            throw new IllegalArgumentException("Uploaded file is empty");
+        }
+        byte[] byteArray = file.getBytes();
+        String base64Data = Base64.getEncoder().encodeToString(byteArray);
 
         UserMessage userMessage = UserMessage.from(
-                TextContent.from("获取图片中的网站和上证指数"),
-                ImageContent.from(base64Data, "image/png")
+                TextContent.from("获取图片分析图片的症状该挂什么科室"),
+                ImageContent.from(base64Data, file.getContentType())
         );
         ChatResponse response = chatLanguageModel.chat(userMessage);
         System.out.println(response.aiMessage().text());
